@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZAVYN | Unisex Collection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            beige: "#F5F5DC",
+            gold: "#D4AF37",
+          },
+          fontFamily: {
+            poppins: ["Poppins", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="font-poppins bg-white text-gray-800">
+  <!-- Navbar -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
+      <span class="text-xl font-bold text-black">ZAVYN</span>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="home.html" class="text-black hover:text-gold font-medium">Home</a>
+        <a href="men.html" class="text-black hover:text-gold font-medium">Men</a>
+        <a href="women.html" class="text-black hover:text-gold font-medium">Women</a>
+        <a href="unisex.html" class="text-gold font-semibold">Unisex</a>
+        <a href="about.html" class="text-black hover:text-gold font-medium">About</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a href="cart.html" class="relative">
+        <i data-feather="shopping-bag" class="text-black"></i>
+        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+        </a>
+        <a href="login.html"><i data-feather="user"></i></a>
+    </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="h-[70vh] bg-cover bg-center flex items-center justify-center text-white" style="background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)), url('http://static.photos/fashion/1200x630/30');">
+    <h1 class="text-5xl font-bold">Unisex Collection</h1>
+  </section>
+
+  <!-- Products -->
+  <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-bold text-center mb-12">Trending Unisex Styles</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="http://static.photos/fashion/640x360/31" alt="Unisex Hoodie" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="font-bold text-xl mb-2">Unisex Hoodie</h3>
+          <p class="text-gray-600 mb-4">Soft and versatile for all</p>
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-gold">$49.99</span>
+            <button class="bg-black text-white py-2 px-4 rounded-full hover:bg-gold transition">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="http://static.photos/fashion/640x360/32" alt="Unisex Tee" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="font-bold text-xl mb-2">Unisex Graphic Tee</h3>
+          <p class="text-gray-600 mb-4">Street style meets comfort</p>
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-gold">$29.99</span>
+            <button class="bg-black text-white py-2 px-4 rounded-full hover:bg-gold transition">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="http://static.photos/fashion/640x360/33" alt="Joggers" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="font-bold text-xl mb-2">Comfy Joggers</h3>
+          <p class="text-gray-600 mb-4">Fit for any style or gender</p>
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-gold">$39.99</span>
+            <button class="bg-black text-white py-2 px-4 rounded-full hover:bg-gold transition">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-8 text-center">
+    <p>© 2025 ZAVYN. All Rights Reserved.</p>
+  </footer>
+
+  <script src="cart.js"></script>
+<script>feather.replace();</script>
+
+</body>
+</html>

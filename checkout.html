@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZAVYN | Checkout</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body class="bg-gray-100 font-poppins">
+
+<section class="max-w-xl mx-auto mt-16 p-8 bg-white rounded-lg shadow">
+  <h1 class="text-3xl font-bold mb-6 text-center">Checkout</h1>
+  <div id="cart-items" class="mb-6"></div>
+  <p class="text-xl font-bold mb-4">Total: ₹<span id="total-amount">0</span></p>
+  <button id="pay-btn" class="w-full bg-black text-white py-3 rounded-lg hover:bg-gold transition">Pay Now</button>
+</section>
+
+<script>
+  // Example cart from localStorage
+  const cart = JSON.parse(localStorage.getItem("zavynCart")) || [];
+
+  const cartItemsDiv = document.getElementById("cart-items");
+  let totalAmount = 0;
+
+  cart.forEach((item, index) => {
+    totalAmount += item.price;
+    const div = document.createElement("div");
+    div.className = "flex justify-between mb-2";
+    div.innerHTML = `<span>${item.name}</span> <span>₹${item.price}</span>`;
+    cartItemsDiv.appendChild(div);
+  });
+
+  document.getElementById("total-amount").textContent = totalAmount;
+
+  // Pay button
+  document.getElementById("pay-btn").addEventListener("click", async () => {
+    if(cart.length === 0) {
+      alert("Cart is empty!");
+      return;
+    }
+
+    const res = await fetch("http://localhost:5000/api/payment/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: totalAmount }),
+    });
+
+    const order = await res.json();
+
+    const options = {
+      key: "rzp_test_RUQ4WHpqYTHEqE",
+      amount: order.amount,
+      currency: order.currency,
+      name: "ZAVYN",
+      description: "Clothes Purchase",
+      order_id: order.id,
+      handler: function(response){
+        alert("Payment Successful!");
+        localStorage.removeItem("zavynCart");
+        window.location.href = "success.html";
+      },
+      modal: {
+        ondismiss: function(){
+          alert("Payment Cancelled");
+        }
+      }
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.open();
+  });
+</script>
+
+</body>
+</html>

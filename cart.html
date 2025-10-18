@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAVYN | Cart</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-gray-50 font-poppins">
+
+<!-- Navbar -->
+<nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
+        <a href="home.html" class="text-xl font-bold">ZAVYN</a>
+        <div class="space-x-6 hidden md:flex">
+            <a href="home.html">Home</a>
+            <a href="men.html">Men</a>
+            <a href="women.html">Women</a>
+            <a href="unisex.html">Unisex</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="cart.html" class="relative">
+                <i data-feather="shopping-bag" class="text-black"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+            </a>
+            <a href="login.html"><i data-feather="user"></i></a>
+        </div>
+    </div>
+</nav>
+
+<!-- Cart Section -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-3xl font-bold mb-8">Your Cart</h1>
+    <div id="cartItems" class="space-y-6"></div>
+    <div id="emptyMessage" class="text-center text-gray-500 mt-12 hidden">
+        Your cart is empty.
+    </div>
+    <div class="mt-8 text-right">
+        <button id="checkoutBtn" class="bg-black text-white px-6 py-2 rounded hover:bg-gold transition">Proceed to Checkout</button>
+    </div>
+</section>
+
+<script>
+feather.replace();
+
+// Function to render cart items
+function renderCart() {
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cart = JSON.parse(localStorage.getItem('zavynCart')) || [];
+    const cartCount = document.getElementById('cart-count');
+    
+    cartCount.textContent = cart.length;
+
+    cartItemsContainer.innerHTML = ''; // Clear previous content
+
+    if(cart.length === 0) {
+        document.getElementById('emptyMessage').classList.remove('hidden');
+        return;
+    } else {
+        document.getElementById('emptyMessage').classList.add('hidden');
+    }
+
+    cart.forEach((item, home) => {
+        const div = document.createElement('div');
+        div.className = "flex items-center bg-white p-4 rounded-lg shadow";
+        div.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover rounded mr-4">
+            <div class="flex-1">
+                <h2 class="font-bold text-lg">${item.name}</h2>
+                <p class="text-gray-600">$${item.price}</p>
+            </div>
+            <button data-home="${home}" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">Remove</button>
+        `;
+        cartItemsContainer.appendChild(div);
+    });
+
+    // Add event listeners for remove buttons
+    const removeButtons = cartItemsContainer.querySelectorAll('button');
+    removeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const home = btn.getAttribute('data-home');
+            cart.splice(home, 1);
+            localStorage.setItem('zavynCart', JSON.stringify(cart));
+            renderCart(); // Re-render cart
+        });
+    });
+}
+
+// Checkout button
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+    const cart = JSON.parse(localStorage.getItem('zavynCart')) || [];
+    if(cart.length === 0) {
+        alert('Your cart is empty.');
+        return;
+    }
+    window.location.href = 'checkout.html';
+});
+
+// Initial render
+renderCart();
+</script>
+
+</body>
+</html>

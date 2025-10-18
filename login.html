@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZAVYN | Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-gray-50 font-poppins">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
+      <a href="home.html" class="text-xl font-bold">ZAVYN</a>
+      <div class="space-x-6 hidden md:flex">
+        <a href="home.html">Home</a>
+        <a href="men.html">Men</a>
+        <a href="women.html">Women</a>
+        <a href="unisex.html">Unisex</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a href="cart.html" class="relative">
+          <i data-feather="shopping-bag" class="text-black"></i>
+          <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+        </a>
+        <a href="login.html"><i data-feather="user"></i></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Login Section -->
+  <section class="flex justify-center items-center min-h-screen bg-gray-50">
+    <div class="bg-white shadow-lg rounded-3xl p-8 w-full max-w-md">
+      <h1 class="text-3xl font-bold text-center mb-6">Welcome to ZAVYN</h1>
+
+      <!-- Tabs -->
+      <div class="flex mb-6 border-b border-gray-200">
+        <button id="loginTab" class="flex-1 text-center py-2 font-semibold border-b-2 border-black">Login</button>
+        <button id="signupTab" class="flex-1 text-center py-2 font-semibold text-gray-500 hover:text-black">Signup</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Email</label>
+          <input type="email" id="loginEmail" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-black outline-none" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Password</label>
+          <input type="password" id="loginPassword" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-black outline-none" required>
+        </div>
+        <div class="flex items-center mb-2">
+          <input type="checkbox" id="rememberMe" class="mr-2">
+          <label for="rememberMe" class="text-sm text-gray-600">Remember Me</label>
+        </div>
+        <button type="submit" class="w-full bg-black text-white py-2 rounded-lg hover:bg-gold transition">Login</button>
+        <p class="text-sm text-center mt-3">
+          <a href="forgot-password.html" class="text-blue-600 hover:underline">
+            Forgot Password?
+          </a>
+        </p>
+        
+      </form>
+
+      <!-- Signup Form -->
+      <form id="signupForm" class="space-y-4 hidden">
+        <div>
+          <label class="block text-sm font-medium mb-1">Full Name</label>
+          <input type="text" id="signupName" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-black outline-none" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Email</label>
+          <input type="email" id="signupEmail" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-black outline-none" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Password</label>
+          <input type="password" id="signupPassword" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-black outline-none" required>
+        </div>
+        <button type="submit" class="w-full bg-black text-white py-2 rounded-lg hover:bg-gold transition">Create Account</button>
+      </form>
+
+      <p class="text-center text-sm text-gray-500 mt-4">
+        By continuing, you agree to our <a href="#" class="text-black hover:underline">Terms</a> & <a href="#" class="text-black hover:underline">Privacy Policy</a>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="bg-gray-900 text-white py-8 text-center">
+    <p>© 2025 ZAVYN. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    feather.replace();
+
+    const loginTab = document.getElementById('loginTab');
+    const signupTab = document.getElementById('signupTab');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+
+    // --- SWITCH TABS ---
+    loginTab.addEventListener('click', () => {
+      loginForm.classList.remove('hidden');
+      signupForm.classList.add('hidden');
+      loginTab.classList.add('border-black');
+      signupTab.classList.remove('border-black');
+    });
+
+    signupTab.addEventListener('click', () => {
+      signupForm.classList.remove('hidden');
+      loginForm.classList.add('hidden');
+      signupTab.classList.add('border-black');
+      loginTab.classList.remove('border-black');
+    });
+
+    // --- SIGNUP ---
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value.trim();
+
+      const users = JSON.parse(localStorage.getItem('zavynUsers')) || [];
+      if (users.find(u => u.email === email)) {
+        alert('Account already exists with this email.');
+        return;
+      }
+
+      users.push({ name, email, password });
+      localStorage.setItem('zavynUsers', JSON.stringify(users));
+      alert('Account created successfully! Please login.');
+      signupForm.reset();
+      loginTab.click();
+    });
+
+    // --- LOGIN ---
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      const remember = document.getElementById('rememberMe').checked;
+
+      const users = JSON.parse(localStorage.getItem('zavynUsers')) || [];
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        localStorage.setItem('zavynLoggedUser', JSON.stringify(user));
+        if (remember) localStorage.setItem('rememberUser', 'true');
+        else localStorage.removeItem('rememberUser');
+        alert(`Welcome back, ${user.name}!`);
+        window.location.href = 'home.html';
+      } else {
+        alert('Invalid credentials. Try again.');
+      }
+    });
+
+    // --- AUTO REDIRECT IF ALREADY LOGGED IN ---
+    window.addEventListener('load', () => {
+      const loggedUser = JSON.parse(localStorage.getItem('zavynLoggedUser'));
+      if (loggedUser && localStorage.getItem('rememberUser')) {
+        window.location.href = 'home.html';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/men", "destination": "/men.html" },
+    { "source": "/women", "destination": "/women.html" },
+    { "source": "/unisex", "destination": "/unisex.html" },
+    { "source": "/cart", "destination": "/cart.html" },
+    { "source": "/checkout", "destination": "/checkout.html" },
+    { "source": "/login", "destination": "/login.html" }
+  ]
+}
